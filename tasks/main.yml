@@ -19,19 +19,19 @@
   shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-1"
   register: output_1
 - set_fact:
-    app_1_addr: "{{ output_1.stdout }}"
+    app_1_addr: '{{ output_1.stdout }}'
 
 - name: address of the 2nd container
   shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-2"
   register: output_2
 - set_fact:
-    app_2_addr: "{{ output_2.stdout }}"
+    app_2_addr: '{{ output_2.stdout }}'
 
 - name: address of the 3rd container
   shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-3"
   register: output_3
 - set_fact:
-    app_3_addr: "{{ output_3.stdout }}"
+    app_3_addr: '{{ output_3.stdout }}'
 
 - name: start the nginx docker container
   become: true
