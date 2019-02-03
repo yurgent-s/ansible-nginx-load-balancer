@@ -9,19 +9,19 @@
     mode: '0755'
 
 - name: address of the 1st container
-  shell: 'docker inspect web-app-1 |grep IPAddress | cut -d \" -f 4 | tail -1'
+  shell: 'docker inspect web-app-1 | grep IPAddress | cut -d \" -f 4 | tail -1'
   register: output_1
 - set_fact:
     app_1_addr: "{{ output_1.stdout }}"
 
 - name: address of the 2nd container
-  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-2"
+  shell: 'docker inspect web-app-2 | grep IPAddress | cut -d \" -f 4 | tail -1'
   register: output_2
 - set_fact:
     app_2_addr: "{{ output_2.stdout }}"
 
 - name: address of the 3rd container
-  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-3"
+  shell: 'docker inspect web-app-3 | grep IPAddress | cut -d \" -f 4 | tail -1'
   register: output_3
 - set_fact:
     app_3_addr: "{{ output_3.stdout }}"
