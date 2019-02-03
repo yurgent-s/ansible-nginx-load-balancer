@@ -1,10 +1,10 @@
 ---
 # tasks file for roles/nginx-role
-- name: create the {{ nginx_base_directory }} directory on the host
+- name: create the /tmp/nginx directory on the host
   become: true
   become_method: sudo
   file:
-    path: "{{ nginx_base_directory }}"
+    path: /tmp/nginx
     state: 'directory'
     mode: '0755'
 
@@ -13,7 +13,7 @@
   become_method: sudo
   template:
     src: nginx.conf.j2
-    dest: "{{ nginx_base_directory }}/nginx.conf"
+    dest: /tmp/nginx/nginx.conf"
 
 - name: address of the 1st container
   shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-1"
@@ -46,5 +46,13 @@
     log_driver: 'syslog'
     log_options:
       tag: "{{ nginx_container_name }}"
-  
 
+- name: Copy in the container
+  command: docker cp /tmp/nginx/nginx.conf '{{ nginx_container_name }}':/etc/nginx/nginx.conf
+  become: yes
+  become_method: sudo
+
+- name: Restart nginx service
+  become: yes
+  become_method: sudo
+  command: docker exec -it '{{ nginx_container_name }}' bash -c 'service nginx restart'
