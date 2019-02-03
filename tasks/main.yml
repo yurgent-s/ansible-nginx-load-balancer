@@ -9,7 +9,7 @@
     mode: '0755'
 
 - name: address of the 1st container
-  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-1"
+  shell: 'docker inspect web-app-1 |grep IPAddress | cut -d \" -f 4'
   register: output_1
 - set_fact:
     app_1_addr: "{{ output_1.stdout }}"
