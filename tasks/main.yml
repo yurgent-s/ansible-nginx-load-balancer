@@ -51,9 +51,3 @@
   command: docker cp /tmp/nginx/nginx.conf '{{ nginx_container_name }}':/etc/nginx/nginx.conf
   become: yes
   become_method: sudo
-
-- name: Restart nginx service
-  become: yes
-  become_method: sudo
-  command: docker exec -it '{{ nginx_container_name }}' bash -c 'service nginx restart'
-  ignore_errors: yes
