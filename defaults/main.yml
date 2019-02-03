@@ -1,6 +1,5 @@
 ---
 # defaults file for roles/nginx-role
-nginx_base_directory: '/tmp/nginx'
 nginx_container_name: 'nginx-load-balancer'
 nginx_tag: 'latest'
 
