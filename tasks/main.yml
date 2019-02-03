@@ -48,5 +48,7 @@
     log_driver: 'syslog'
     log_options:
       tag: "{{ nginx_container_name }}"
+    volumes:
+      - "{{ nginx_base_directory }}/nginx.conf":/etc/nginx/nginx.conf:ro
   
 
