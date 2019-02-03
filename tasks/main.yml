@@ -53,3 +53,11 @@
   command: docker cp /tmp/nginx/nginx.conf "{{ nginx_container_name }}":/etc/nginx/nginx.conf
   become: yes
   become_method: sudo
+  
+- name: restart container
+  become: yes
+  become_method: sudo
+  docker_container:
+    name: "{{ nginx_container_name }}"
+    state: started
+    restart: yes
