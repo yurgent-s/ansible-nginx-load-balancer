@@ -1,0 +1,20 @@
+---
+# defaults file for roles/nginx-role
+nginx_base_directory: '/tmp/nginx'
+nginx_container_name: 'nginx-load-balancer'
+nginx_tag: 'latest'
+
+nginx_reverse_proxy_proxies: []
+
+nginx_exposed_ports:
+  - '80'
+
+nginx_published_ports:
+  - '81:80'
+
+app_1_addr:
+app_2_addr:
+app_3_addr:
+output_1:
+output_2:
+output_3:

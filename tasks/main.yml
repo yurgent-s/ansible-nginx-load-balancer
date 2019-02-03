@@ -1,0 +1,50 @@
+---
+# tasks file for roles/nginx-role
+- name: create the {{ nginx_base_directory }} directory on the host
+  become: true
+  become_method: sudo
+  file:
+    path: "{{ nginx_base_directory }}"
+    state: 'directory'
+    mode: '0755'
+
+- name: put the nginx.conf file in place
+  become: true
+  become_method: sudo
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_base_directory }}/nginx.conf"
+
+- name: address of the 1st container
+  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-1"
+  register: output_1
+- set_fact:
+    app_1_addr: "{{ output_1.stdout }}"
+
+- name: address of the 2nd container
+  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-2"
+  register: output_2
+- set_fact:
+    app_2_addr: "{{ output_2.stdout }}"
+
+- name: address of the 3rd container
+  shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-3"
+  register: output_3
+- set_fact:
+    app_3_addr: "{{ output_3.stdout }}"
+
+- name: start the nginx docker container
+  become: true
+  become_method: sudo
+  docker_container:
+    image: "nginx:{{ nginx_tag }}"
+    name: "{{ nginx_container_name }}"
+    ports: '{{ nginx_published_ports }}'
+    exposed_ports: '{{ nginx_exposed_ports }}'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_options:
+      tag: "{{ nginx_container_name }}"
+  
+
