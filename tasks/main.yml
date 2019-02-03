@@ -8,13 +8,6 @@
     state: 'directory'
     mode: '0755'
 
-- name: put the nginx.conf file in place
-  become: true
-  become_method: sudo
-  template:
-    src: nginx.conf.j2
-    dest: /tmp/nginx/nginx.conf"
-
 - name: address of the 1st container
   shell: "docker inspect -f '{{ '{{' }} .NetworkSettings.Networks.deploy.IPAddress {{ '}}'  }}' web-app-1"
   register: output_1
@@ -32,6 +25,13 @@
   register: output_3
 - set_fact:
     app_3_addr: '{{ output_3.stdout }}'
+    
+- name: put the nginx.conf file in place
+  become: true
+  become_method: sudo
+  template:
+    src: nginx.conf.j2
+    dest: /tmp/nginx/nginx.conf
 
 - name: start the nginx docker container
   become: true
