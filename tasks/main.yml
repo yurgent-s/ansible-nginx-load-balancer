@@ -45,3 +45,8 @@
 
 - name: copy template in the container
   command: docker cp /tmp/nginx/nginx.conf '{{ nginx_container_name }}':/etc/nginx/nginx.conf
+  
+- name: restart the nginx docker container
+  docker_container:
+    name: "{{ nginx_container_name }}"
+    restart: yes
