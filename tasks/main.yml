@@ -1,8 +1,6 @@
 ---
 # tasks file for roles/nginx-role
 - name: create the /tmp/nginx directory on the host
-  become: true
-  become_method: sudo
   file:
     path: /tmp/nginx
     state: 'directory'
@@ -27,15 +25,11 @@
     app_3_addr: "{{ output_3.stdout }}"
     
 - name: put the nginx.conf file in place
-  become: true
-  become_method: sudo
   template:
     src: nginx.conf.j2
     dest: /tmp/nginx/nginx.conf
 
 - name: start the nginx docker container
-  become: true
-  become_method: sudo
   docker_container:
     image: "nginx:{{ nginx_tag }}"
     name: "{{ nginx_container_name }}"
@@ -51,5 +45,3 @@
 
 - name: copy template in the container
   command: docker cp /tmp/nginx/nginx.conf '{{ nginx_container_name }}':/etc/nginx/nginx.conf
-  become: yes
-  become_method: sudo
