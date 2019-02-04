@@ -46,8 +46,10 @@
     log_driver: 'syslog'
     log_options:
       tag: "{{ nginx_container_name }}"
+    networks:
+      - name: containers_net
 
-- name: Copy in the container
+- name: copy template in the container
   command: docker cp /tmp/nginx/nginx.conf '{{ nginx_container_name }}':/etc/nginx/nginx.conf
   become: yes
   become_method: sudo
