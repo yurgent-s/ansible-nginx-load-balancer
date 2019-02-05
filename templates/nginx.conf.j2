@@ -25,9 +25,9 @@ events {
     keepalive_timeout  65;
     
      upstream backend {
-        server {{ app_1_addr }}:5021;
-        server {{ app_2_addr }}:5022;
-        server {{ app_3_addr }}:5023;
+        server {{ app_1_addr }}:5000;
+        server {{ app_2_addr }}:5000;
+        server {{ app_3_addr }}:5000;
     }
 
     server {
